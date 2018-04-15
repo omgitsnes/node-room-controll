@@ -11,7 +11,7 @@ const char* password = "f30b060e418a";
 
 // How many bits to use for temperature values: 9, 10, 11 or 12
 #define SENSOR_RESOLUTION 9
-// Index of sensors connected to data pin, default: 0
+// Index of sensors connected to analogPin, default: 0
 #define SENSOR_INDEX 0
 
 // Pins
@@ -21,7 +21,7 @@ int buzzerPin = D8;
 int analogPin = A0; 
 
 // Used for DS18B20 sensor
-OneWire oneWire(DATA_PIN);
+OneWire oneWire(analogPin);
 DallasTemperature sensors(&oneWire);
 DeviceAddress sensorDeviceAddress;
 
@@ -92,47 +92,16 @@ void loop() {
 
     }
 
-    // Read the first line of the request
-    String request = client.readStringUntil('\r');
-    Serial.println(request);
-    client.flush();
 
+    String request = handleRequest(client);
     // Match the request
-
-    int value = LOW;
-    if (request.indexOf("/LED=OFF") != -1)  {
-        digitalWrite(ledPin, HIGH);
-        value = HIGH;
-    }
-    if (request.indexOf("/LED=ON") != -1)  {
-        digitalWrite(ledPin, LOW);
-        value = LOW;
-    }
-
+    int value = handleLED(request);
     float lux = readLDR();
-    float temperatureInCelsius = readTemperature();
+    //float temperatureInCelsius = readTemperature(); //TODO
+    int buzz = handleBuzzer(request);
 
-    int buzz = 0;
 
-    if (request.indexOf("/BUZZ") != -1)  {
-        tone(buzzerPin, 1000);
-        delay(1000);
-        noTone(buzzerPin);
-        buzz = 1;
-    }
-
-    if (request.indexOf("/SUPERBUZZ") != -1)  {
-        for (int i = 0; i < 20; ++i)
-        {
-            tone(buzzerPin, 5000);
-            delay(100);
-        }
-
-        noTone(buzzerPin);
-        buzz = 2;
-    }
-
-  // Return the response
+    // Return the response
     client.println("HTTP/1.1 200 OK");
     client.println("Content-Type: text/html");
     client.println(""); //  do not forget this one
@@ -197,6 +166,14 @@ void loop() {
     Serial.println("");
 }
 
+String handleRequest(WiFiClient client) {
+    // Read the first line of the request
+    String request = client.readStringUntil('\r');
+    Serial.println(request);
+    client.flush();
+    return request;
+}
+
 float readLDR() {
     // Handle switch
 
@@ -212,4 +189,48 @@ float readTemperature() {
 
     float temperatureInCelsius = sensors.getTempCByIndex(SENSOR_INDEX);
     return temperatureInCelsius; 
+}
+/*
+ * Ativates the buzzer if it need to
+ * Returns new buzzer state
+ *
+ */
+int handleBuzzer(String request) {
+    int buzz = 0;
+    if (request.indexOf("/BUZZ") != -1)  {
+        tone(buzzerPin, 1000);
+        delay(1000);
+        noTone(buzzerPin);
+        buzz = 1;
+    }
+
+    if (request.indexOf("/SUPERBUZZ") != -1)  {
+        for (int i = 0; i < 20; ++i)
+        {
+            tone(buzzerPin, 5000);
+            delay(100);
+        }
+
+        noTone(buzzerPin);
+        buzz = 2;
+    }
+    return buzz;
+}
+
+/*
+ * Activates the LED f it needs to
+ * Return new LED state
+ */
+
+int handleLED(String request) {
+    int value = LOW;
+    if (request.indexOf("/LED=OFF") != -1)  {
+        digitalWrite(ledPin, HIGH);
+        value = HIGH;
+    }
+    if (request.indexOf("/LED=ON") != -1)  {
+        digitalWrite(ledPin, LOW);
+        value = LOW;
+    }
+    return value;
 }

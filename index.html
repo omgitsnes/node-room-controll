@@ -1,0 +1,104 @@
+<!DOCTYPE html5>
+<html>
+<head>
+    <title>Controll Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+
+    <style type="text/css" media="screen">
+ /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+} 
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-sm-12 bg-success page-header">
+            <h1 class="text-light text-center"><i class="fa fa-bed"></i> Quarto</h1>
+        </div>
+        <!-- LUMINOSITY -->
+        <div class="col-sm-6 bg-light border text-center">
+            <br>
+            <h2 class=""><i class="far fa-lightbulb"></i> Iluminacao</h2><hr>
+            <p><h4 class="text"><i class="fas fa-moon"></i> 100 lux</h4></p>
+            <!-- <p><h4 class="text"><i class="fas fa-sun"></i> 2000 lux</h4></p> -->
+            <p><h4 class="">Candeeiro 1: <span class="text-success">Ligado</span></h4></p>
+            <p><h4 class="">Candeeiro 2: <span class="text-warning">Desligado</span></h4></p>
+        </div>
+        <!-- TEMPERATURE -->
+        <div class="col-sm-6 bg-light border text-center">
+            <br>
+            <h2 class=""><i class="fas fa-thermometer-empty"></i> Temperatura</h2><hr>
+            <p>
+            <h4 class="text-success">30 C</h4></p>
+        </div>
+        <div class="col-sm-6 bg-light border text-center">
+            <br><h2 class=""><i class="fas fa-wrench"></i> Controlos de Iluminacao</h2><hr>
+            <p><a href="/LED=OFF""><button class="btn btn-danger">Turn OFF </button></a>
+            <a href="/LED=ON""><button class="btn btn-success">Turn On </button></a></p>
+        </div>
+        <div class="col-sm-6 bg-light border text-center">
+            <br><h2 class=""><i class="far fa-clock"></i> Alarmes</h2><hr>
+            <p><a href="/SUPERBUZZ"><button class="btn btn-danger">SUPERBUZZ</button></a>
+            <a href="/BUZZ"><button class="btn btn-warning">BUZZ</button></a>
+            <a href="/"><button class="btn btn-success">NO BUZZ</button></a></p>
+        </div>
+    </div>
+</body>
+</html>

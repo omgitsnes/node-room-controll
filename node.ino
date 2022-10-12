@@ -6,8 +6,8 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-const char* ssid = "PowerPuffGurls";
-const char* password = "f30b060e418a";
+const char* ssid = "testNetwork";
+const char* password = "testNetwork";
 
 // How many bits to use for temperature values: 9, 10, 11 or 12
 #define SENSOR_RESOLUTION 9
